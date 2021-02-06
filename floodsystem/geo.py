@@ -12,6 +12,17 @@ from collections import Counter
 
 
 def stations_by_distance(stations, p):
+    """ Computes the distance from reference point (p) and the
+    coordinates of a station using haversine function. This distance is appended to a list
+    which is then sorted by distance.
+
+    Args:
+        stations [list[tuples]]: List of station objects
+        p [float]: [description]
+
+    Returns:
+        [list[tuples]]: Sorted list of tuples containing station name, town, distance.
+    """
     station_by_distance = []
     for station in stations:
         station_by_distance.append((station, haversine(station.coord, p, unit=Unit.KILOMETERS)))
@@ -20,6 +31,17 @@ def stations_by_distance(stations, p):
 
 
 def rivers_by_station_number(stations, N):
+    """ Determines the N rivers with the greatest number of monitoring station,
+    outputted as a list of tuples containg the river name and the number of stations
+    associated with the river.
+
+    Args:
+        stations [list[tuples]]: List of station objects
+        N [integer]: N rivers with the greatest number of monitoring stations
+
+    Returns:
+        [list[tuples]]: Sorted list of tuples containing river name, number of stations
+    """
     assert N > 0, "N (rivers) cannot be 0 or negative number"
     # Counting the number of stations associated with each river
     # The Counter will return a dict e.g. {'river1' : 10, 'river2': 8, etc.}
