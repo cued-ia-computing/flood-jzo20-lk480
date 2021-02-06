@@ -1,28 +1,20 @@
 import numpy as np
+from mock import Mock
 from floodsystem.station import MonitoringStation
 from floodsystem.geo import stations_by_distance
 
 
-def test_stations_by_distance():
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "some station"
-    coord = (50.8167, -0.2667)
-    trange = (-2.3, 3.4445)
-    river = "Adur"
-    town = "My Town"
-    s1 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+def create_mock_station(**kwargs):
+    mock = Mock(spec=MonitoringStation, **kwargs)
+    return mock
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "some station"
-    coord = (51.5855, -0.616)
-    trange = (-2.3, 3.4445)
-    river = "Thames"
-    town = "My Town"
-    s2 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+
+def test_stations_by_distance():
+    # Create the first station
+    s1 = create_mock_station(coord=(50.8167, -0.2667), river='Adur', trange=(-2.3, 3.4445))
+
+    # Create the second station
+    s2 = create_mock_station(coord=(51.5855, -0.616), river='Thames', trange=(-2.3, 3.4445))
 
     ref_point = (51.0017, -2.6363)
 
