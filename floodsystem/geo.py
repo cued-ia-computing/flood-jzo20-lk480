@@ -25,3 +25,25 @@ def stations_within_radius(stations, centre, r):
             stations_within_radius.append(station.name)
 
     return sorted(stations_within_radius)
+
+
+def rivers_with_station(stations):
+    rivers_with_station_set = {station.river for station in stations}
+    rivers_with_station_list = []
+    for name in rivers_with_station_set:
+        rivers_with_station_list.append(name)
+
+    return sorted(rivers_with_station_list)
+
+
+def stations_by_river(stations):
+    stations_by_river_dict = {}
+    station = stations
+    for i in range(len(stations)):
+        if not station[i].river in stations_by_river_dict:
+            stations_by_river_dict[station[i].river] = []
+            stations_by_river_dict[station[i].river].append(station[i].name)
+        else:
+            stations_by_river_dict[station[i].river].append(station[i].name)
+
+    return stations_by_river_dict
