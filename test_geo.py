@@ -45,7 +45,7 @@ def test_stations_within_radius():
     # Create a station
     s_id = "test-s-id"
     m_id = "test-m-id"
-    label = "some station"
+    label = "A"
     coord = (50.8167, -0.2667)
     trange = (-2.3, 3.4445)
     river = "Adur"
@@ -55,7 +55,7 @@ def test_stations_within_radius():
     # Create a station
     s_id = "test-s-id"
     m_id = "test-m-id"
-    label = "some station"
+    label = "B"
     coord = (51.5855, -0.616)
     trange = (-2.3, 3.4445)
     river = "Thames"
@@ -70,6 +70,6 @@ def test_stations_within_radius():
 
     sorted_pairs = stations_within_radius(stations, centre_coord, radius_from_centre)
     # test for stations
-    actual_sorted_rivers = (x for x in sorted_pairs)
-    expected_sorted_rivers = ('Adur', 'Thames')
+    actual_sorted_rivers = tuple((x for x in sorted_pairs))
+    expected_sorted_rivers = ('A', 'B')
     assert actual_sorted_rivers == expected_sorted_rivers
