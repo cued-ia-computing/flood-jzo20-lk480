@@ -4,11 +4,11 @@ from floodsystem.geo import stations_within_radius
 
 def run():
 
-    station = build_station_list()
+    stations = build_station_list()
     centre_coord = (52.2053, 0.1218)
     r = 10
-    list_of_stations = stations_within_radius(station, centre_coord, r)
-    print("All stations within {radius}km from {centre}\n: {answer}".format(radius=r, centre=centre_coord, answer=list_of_stations))
+    list_of_stations = stations_within_radius(stations, centre_coord, r)
+    print("All stations within {rad}km from {centre}\n: {ans}".format(rad=r, centre=centre_coord, ans=list_of_stations))
 
 
 if __name__ == "__main__":
