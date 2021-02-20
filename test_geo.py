@@ -8,16 +8,17 @@ import pytest
 
 def create_mock_station(**kwargs):
     mock = Mock(spec=MonitoringStation, **kwargs)
+    mock.name = kwargs.get('label')
     return mock
 
 
 # test for 1B
 def test_stations_by_distance():
     # Create the first station
-    s1 = create_mock_station(coord=(50.8167, -0.2667), river='Adur', trange=(-2.3, 3.4445))
+    s1 = create_mock_station(coord=(50.8167, -0.2667), river='Adur')
 
     # Create the second station
-    s2 = create_mock_station(coord=(51.5855, -0.616), river='Thames', trange=(-2.3, 3.4445))
+    s2 = create_mock_station(coord=(51.5855, -0.616), river='Thames')
 
     ref_point = (51.0017, -2.6363)
 
@@ -37,25 +38,11 @@ def test_stations_by_distance():
 
 # test for 1C
 def test_stations_within_radius():
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "station 1"
-    coord = (50.8167, -0.2667)
-    trange = (-2.3, 3.4445)
-    river = "Adur"
-    town = "My Town"
-    s1 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    # Create station 1
+    s1 = create_mock_station(coord=(50.8167, -0.2667), label='station 1')
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "station 2"
-    coord = (51.5855, -0.616)
-    trange = (-2.3, 3.4445)
-    river = "Thames"
-    town = "My Town"
-    s2 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    # Create station 2
+    s2 = create_mock_station(coord=(51.5855, -0.616), label='station 2')
 
     centre_coord = (51.0017, -2.6363)
 
@@ -63,64 +50,24 @@ def test_stations_within_radius():
 
     stations = [s1, s2]
 
-    sorted_pairs = stations_within_radius(stations, centre_coord, radius_from_centre)
+    actual_sorted_rivers = stations_within_radius(stations, centre_coord, radius_from_centre)
     # test for stations
-    actual_sorted_rivers = sorted_pairs
     expected_sorted_rivers = ['station 1', 'station 2']
     assert actual_sorted_rivers == expected_sorted_rivers
 
 
 # test for 1D
 def test_rivers_with_station():
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "station 1"
-    coord = (50.8167, -0.2667)
-    trange = (-2.3, 3.4445)
-    river = "Adur"
-    town = "My Town"
-    s1 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    # This is looks like a dodgy test as we are creating stations with the same co-ordinates but with different names
+    s1 = create_mock_station(coord=(50.8167, -0.2667), river="Adur")
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "some station"
-    coord = (50.9167, -0.2687)
-    trange = (-2.3, 3.4445)
-    river = "Adur"
-    town = "My Town"
-    s2 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s2 = create_mock_station(coord=(50.8167, -0.2667), river="Adur")
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "some station"
-    coord = (51.5855, -0.616)
-    trange = (-2.3, 3.4445)
-    river = "Thames"
-    town = "My Town"
-    s3 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s3 = create_mock_station(coord=(51.5855, -0.616), river="Thames")
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "some station"
-    coord = (51.5855, -0.616)
-    trange = (-2.3, 3.4445)
-    river = "Ail"
-    town = "My Town"
-    s4 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s4 = create_mock_station(coord=(51.5855, -0.616), river="Ail")
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "some station"
-    coord = (51.5855, -0.616)
-    trange = (-2.3, 3.4445)
-    river = "Ail"
-    town = "My Town"
-    s5 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s5 = create_mock_station(coord=(51.5855, -0.616), river="Ail")
 
     stations = [s1, s2, s3, s4, s5]
 
@@ -137,45 +84,14 @@ def test_rivers_with_station():
 
 
 def test_stations_by_river():
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "station 2"
-    coord = (50.8167, -0.2667)
-    trange = (-2.3, 3.4445)
-    river = "Adur"
-    town = "My Town"
-    s1 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "station 1"
-    coord = (50.9167, -0.2687)
-    trange = (-2.3, 3.4445)
-    river = "Adur"
-    town = "My Town"
-    s2 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s1 = create_mock_station(coord=(50.9167, -0.2687), river="Adur", label="station 1")
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "station 3"
-    coord = (51.5855, -0.616)
-    trange = (-2.3, 3.4445)
-    river = "Thamus"
-    town = "My Town"
-    s3 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s2 = create_mock_station(coord=(50.8167, -0.2667), river="Adur", label="station 2")
 
-    # Create a station
-    s_id = "test-s-id"
-    m_id = "test-m-id"
-    label = "station 4"
-    coord = (51.5855, -0.6126)
-    trange = (-2.3, 3.44451)
-    river = "Ail"
-    town = "My Town"
-    s4 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s3 = create_mock_station(coord=(51.5855, -0.616), river="Thames", label="station 3")
+
+    s4 = create_mock_station(coord=(51.5855, -0.6126), river="Ail", label="station 4")
 
     stations = [s1, s2, s3, s4]
 

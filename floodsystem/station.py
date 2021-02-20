@@ -11,7 +11,7 @@ class MonitoringStation:
     """This class represents a river level monitoring station"""
 
     def __init__(self, station_id, measure_id, label, coord, typical_range,
-                 river, town):
+                 river, town, latest_level=None):
 
         self.station_id = station_id
         self.measure_id = measure_id
@@ -27,7 +27,7 @@ class MonitoringStation:
         self.river = river
         self.town = town
 
-        self.latest_level = None
+        self.latest_level = latest_level
 
     def __repr__(self):
         d = "Station name:     {}\n".format(self.name)
@@ -50,10 +50,22 @@ class MonitoringStation:
             return False
         elif self.typical_range[0] is None or self.typical_range[1] is None:
             return False
-        elif self.typical_range[0] > self.typical_range[1]:
+        elif self.typical_range[0] >= self.typical_range[1]:
             return False
         else:
             return True
+
+    def relative_water_level(self):
+        """Returns latest water level as a fraction of the typical range
+        e.g. 1.0 corresponds to a level equalling typical_high
+             0.0 corresponds to a level equalling typical_low
+
+        Returns:
+            [float]: water level as a fraction of the typical range
+        """
+        # Test
+        if self.typical_range_consistent() and self.latest_level is not None:
+            return (self.latest_level - self.typical_range[0]) / (self.typical_range[1] - self.typical_range[0])
 
 
 def inconsistent_typical_range_stations(stations):
