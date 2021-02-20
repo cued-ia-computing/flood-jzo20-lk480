@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 """Unit test for the station module"""
-
+import pytest
 from floodsystem.station import MonitoringStation, inconsistent_typical_range_stations
 
 
@@ -128,4 +128,24 @@ def test_inconsistent_typical_range_stations_all_consistent():
     stations = [s1, s2]
     expected = []
     actual = inconsistent_typical_range_stations(stations)
+    assert actual == expected
+
+
+@pytest.mark.parametrize("trange,latest_level,expected", [((1, 2), 1.5, 0.5),
+                                                          ((None, 2), 1.5, None),
+                                                          ((1, 2), None, None),
+                                                          ((1, 1), 1.5, None),
+                                                          ((2, 1), 1.5, None)])
+def test_relative_water_level(trange, latest_level, expected):
+    # Create a first station
+    s_id = "test-sid1"
+    m_id = "test-m-id"
+    label = "a"
+    coord = (-2.0, 4.0)
+    river = "River X"
+    town = "My Town"
+    s1 = MonitoringStation(s_id, m_id, label, coord, trange, river, town)
+    s1.latest_level = latest_level
+    actual = s1.relative_water_level()
+
     assert actual == expected
