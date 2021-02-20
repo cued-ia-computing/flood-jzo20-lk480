@@ -1,10 +1,25 @@
+""" This modules contains a collection of functions to plot water levels data"""
+
 import datetime
 import matplotlib.pyplot as plt
+import matplotlib
 from bokeh.plotting import figure, output_file, show
+import numpy as np
 from floodsystem.datafetcher import fetch_measure_levels
+from floodsystem.analysis import polyfit
 
 
 def get_historical_water_levels(station, num_days):
+    """Utility function that gets historical water level data from the
+    data fetcher.
+
+    Args:
+        station ([MonitoringStation]): An instance of a MonitoringStation
+        num_days ([int]): Number of days to retrieve historical data
+
+    Returns:
+        [tuple]: returns list of dates and list of water-levels (m).
+    """
     dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=num_days))
     return dates, levels
 
@@ -39,3 +54,16 @@ def plot_water_levels_bokeh(station, dates, levels):
 
     # show the results
     show(p)
+
+
+def plot_water_level_with_fit(station, dates, levels, p):
+    poly, d0 = polyfit(dates, levels, p)
+    x = matplotlib.dates.date2num(dates)
+    y = levels
+    plt.plot(x, y, '.')
+    # Plot polynomial fit at 30 points along interval (note that polynomial
+    # is evaluated using the shift x)
+    x1 = np.linspace(x[0], x[-1], 30)
+    plt.plot(x1, poly(x1 - x[0]))
+    # Display plot
+    plt.show()
