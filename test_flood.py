@@ -1,5 +1,6 @@
 from floodsystem.station import MonitoringStation
 from floodsystem.flood import stations_level_over_threshold
+from floodsystem.flood import stations_highest_rel_level
 
 
 def create_test_station(s_id=None,
@@ -28,3 +29,23 @@ def test_stations_level_over_threshold():
         actual_names.append(station.name)
     expected_names = ['station4', 'station1', 'station3']
     assert actual_names == expected_names
+
+
+def test_stations_highest_rel_level():
+    # create stations
+    s1 = create_test_station(label='station 1', trange=(0.1, 0.2), latest_level=1.5)
+    s2 = create_test_station(label='station 2', trange=(0.1, 0.5), latest_level=1.5)
+    s3 = create_test_station(label='station 3', trange=(0.2, 0.4), latest_level=1.5)
+    s4 = create_test_station(label='station 4', trange=(0.1, 0.7), latest_level=1.5)
+    s5 = create_test_station(label='station 5', trange=(0.8, 0.9), latest_level=1.5)
+    s6 = create_test_station(label='station 6', trange=(0.1, 0.9), latest_level=1.5)
+
+    stations = [s1, s2, s3, s4, s5, s6]
+
+    output_station = stations_highest_rel_level(stations, 5)
+    actual_N_rivers = []
+    # test for stations
+    for station, level in output_station:
+        actual_N_rivers.append(station)
+    expected_N_rivers = ['station 1', 'station 5', 'station 3', 'station 2', 'station 4']
+    assert actual_N_rivers == expected_N_rivers
