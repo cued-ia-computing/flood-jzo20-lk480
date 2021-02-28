@@ -64,7 +64,7 @@ class MonitoringStation:
             [float]: water level as a fraction of the typical range
         """
         # Test
-        if self.typical_range_consistent() and self.latest_level is not None:
+        if self.typical_range_consistent() is True and self.latest_level is not None:
             return (self.latest_level - self.typical_range[0]) / (self.typical_range[1] - self.typical_range[0])
 
 
