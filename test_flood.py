@@ -46,6 +46,6 @@ def test_stations_highest_rel_level():
     actual_N_rivers = []
     # test for stations
     for station, level in output_station:
-        actual_N_rivers.append(station)
+        actual_N_rivers.append(station.name)
     expected_N_rivers = ['station 1', 'station 5', 'station 3', 'station 2', 'station 4']
     assert actual_N_rivers == expected_N_rivers

@@ -36,9 +36,4 @@ def stations_highest_rel_level(stations, N):
     """
     sorted_list = stations_level_over_threshold(stations)
 
-    N_stations_at_risk = []
-    for i in range(N):
-        station, relative_water_level = sorted_list[i]
-        N_stations_at_risk.append((station.name, relative_water_level))
-
-    return N_stations_at_risk
+    return sorted_list[:N]
