@@ -13,7 +13,7 @@ def run():
     result = stations_highest_rel_level(stations, 10)
 
     for station, relative_level in result:
-        print(f"{station}: {relative_level}")
+        print(f"{station.name}: {relative_level}")
 
 
 if __name__ == "__main__":
