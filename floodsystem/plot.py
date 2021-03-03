@@ -55,10 +55,21 @@ def plot_water_level_with_fit(station, dates, levels, p):
     # Plot polynomial fit at 30 points along interval (note that polynomial
     # is evaluated using the shift x)
     x1 = np.linspace(x[0], x[-1], 30)
-    plt.plot(x1, poly(x1 - x[0]), label="Regression Line")
-    plt.plot(x1, np.full(len(x1), station.typical_range[0]), label="Low", color='tab:green')
-    plt.plot(x1, np.full(len(x1), station.typical_range[1]), label="High", color='tab:red')
-    plt.xlabel('Dates')
+    # Get the current figure for re-sizing
+    fig = plt.gcf()
+    fig.set_size_inches(12, 7, forward=True)
+    # Get the current axis to get the date formatter
+    ax = plt.gca()
+    hfmt = matplotlib.dates.DateFormatter('%d/%m/%y %H:%M')
+    # Set the date formatter for the x-axis
+    ax.xaxis.set_major_formatter(hfmt)
+    ax.plot(x1, poly(x1 - x[0]), label="Regression Line")
+    ax.plot(x1, np.full(len(x1), station.typical_range[0]),
+            label="Low", color='tab:green')
+    ax.plot(x1, np.full(len(x1), station.typical_range[1]),
+            label="High", color='tab:red')
+    plt.xlabel('Dates (DD/MM/YY HH:MI')
+    plt.xticks(rotation=30)
     plt.ylabel("Water Level (m)")
     plt.legend(loc='center left')
     plt.title(station.name)
