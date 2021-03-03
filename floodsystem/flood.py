@@ -34,6 +34,22 @@ def stations_highest_rel_level(stations, N):
     Returns:
         [list(tuples)]: list of N tuples containing station objects and relative water level, sorted in descending order
     """
-    sorted_list = stations_level_over_threshold(stations)
+    # sorted_list = stations_level_over_threshold(stations)
+    # unable to filter out extreme value
+
+    stations_rel_level = []
+
+    for station in stations:
+        # check if water level consistent
+        rel_level = station.relative_water_level()
+
+        # check if water level reasonable
+        if rel_level is not None:
+
+            # check if current water level not extreme
+            if rel_level <= 30:
+                stations_rel_level.append((station.name, rel_level))
+
+    sorted_list = sorted(stations_rel_level, key=lambda x: x[1], reverse=True)
 
     return sorted_list[:N]
