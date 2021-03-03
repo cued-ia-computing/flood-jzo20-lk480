@@ -48,7 +48,7 @@ def stations_highest_rel_level(stations, N):
 
             # check if current water level not extreme
             if rel_level <= 30:
-                stations_rel_level.append((station.name, rel_level))
+                stations_rel_level.append((station, rel_level))
 
     sorted_list = sorted(stations_rel_level, key=lambda x: x[1], reverse=True)
 
