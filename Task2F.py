@@ -1,5 +1,5 @@
-from floodsystem.stationdata import build_station_list, update_water_levels
-from floodsystem.plot import get_historical_water_levels, plot_water_level_with_fit
+from floodsystem.stationdata import build_station_list, update_water_levels, get_historical_water_levels
+from floodsystem.plot import plot_water_level_with_fit
 from floodsystem.flood import stations_highest_rel_level
 
 
