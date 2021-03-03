@@ -1,5 +1,5 @@
-from floodsystem.stationdata import build_station_list
-from floodsystem.plot import get_historical_water_levels, plot_water_levels, plot_water_levels_bokeh
+from floodsystem.stationdata import build_station_list, get_historical_water_levels
+from floodsystem.plot import plot_water_levels, plot_water_levels_bokeh
 
 
 def run(plot_type):
