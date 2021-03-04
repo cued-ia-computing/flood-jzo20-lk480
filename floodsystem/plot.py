@@ -11,6 +11,9 @@ def plot_water_levels(station, dates, levels):
 
     # Plot
     plt.plot(dates, levels)
+    plt.plot(dates, np.full(len(dates), station.typical_range[0]), label="Low", color='tab:green')
+    plt.plot(dates, np.full(len(dates), station.typical_range[1]), label="High", color='tab:red')
+    plt.legend(loc='center left')
 
     # Add axis labels, rotate date labels and add plot title
     plt.xlabel('date')
@@ -34,7 +37,8 @@ def plot_water_levels_bokeh(station, dates, levels):
 
     # add a line renderer with legend and line thickness
     p.line(dates, levels, legend_label="Water Level", line_width=2)
-
+    p.line(dates, np.full(len(dates), station.typical_range[1]), legend_label="High", line_width=2, color='red')
+    p.line(dates, np.full(len(dates), station.typical_range[0]), legend_label="Low", line_width=2, color='green')
     # show the results
     show(p)
 
