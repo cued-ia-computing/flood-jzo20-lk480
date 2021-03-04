@@ -1,11 +1,11 @@
 # Copyright (C) 2018 Garth N. Wells
 #
 # SPDX-License-Identifier: MIT
-"""This module provides interface for extracting statiob data from
+"""This module provides interface for extracting station data from
 JSON objects fetched from the Internet and
 
 """
-
+import datetime
 from . import datafetcher
 from .station import MonitoringStation
 
@@ -87,3 +87,18 @@ def update_water_levels(stations):
         if station.measure_id in measure_id_to_value:
             if isinstance(measure_id_to_value[station.measure_id], float):
                 station.latest_level = measure_id_to_value[station.measure_id]
+
+
+def get_historical_water_levels(station, num_days):
+    """Utility function that gets historical water level data from the
+    data fetcher.
+
+    Args:
+        station ([MonitoringStation]): An instance of a MonitoringStation
+        num_days ([int]): Number of days to retrieve historical data
+
+    Returns:
+        [tuple]: returns list of dates and list of water-levels (m).
+    """
+    dates, levels = datafetcher.fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=num_days))
+    return dates, levels
